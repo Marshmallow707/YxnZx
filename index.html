@@ -334,6 +334,139 @@ footer {
   filter: invert(1) drop-shadow(0 0 2px #39ff14);
 }
 
+/* Anime Box Neon Hover */
+.anime-box {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #39ff14;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.anime-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #39ff14, #ff6a00, #39ff14, #ff6a00);
+  background-size: 400% 400%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  animation: neonMove 5s linear infinite;
+}
+
+.anime-box:hover::before {
+  opacity: 0.6;
+}
+
+@keyframes neonMove {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+.anime-box img {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Netflix Button Neon Glow */
+.btn-netflix {
+  background: #e50914; /* Netflix red */
+  color: #fff;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+  box-shadow: 0 0 5px #e50914;
+}
+
+.btn-netflix:hover {
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00;
+  color: #39ff14;
+  transform: scale(1.05);
+}
+
+/* Music Title Banner Slide */
+.music-title {
+  width: 100%;
+  overflow: hidden;
+  padding: 6px 0;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 207, 255, 0.6);
+  position: relative;
+}
+
+/* Default state (NOT playing) */
+.music-title span {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 0;
+  color: #00cfff;
+  text-shadow: 0 0 5px #00cfff;
+}
+
+/* When playing */
+.music-title.playing span {
+  padding-left: 100%;
+  animation: slideTitle 8s linear infinite;
+  color: #39ff14;
+  text-shadow: 0 0 8px #39ff14,
+               0 0 20px #39ff14,
+               0 0 40px #00ffcc;
+}
+
+/* Animation */
+@keyframes slideTitle {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Quote Reveal */
+.quote-box {
+  background: rgba(17,17,17,0.7); /* semi-transparent for quote on image */
+  border: 1px solid #39ff14;
+  padding: 20px 30px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  color: #fff;
+  text-shadow: 0 0 5px #000;
+  backdrop-filter: blur(6px); /* glassy effect */
+}
+
+.quote-box:hover {
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00;
+}
+
+/* Hidden quote initially */
+.hidden-quote {
+  display: none;
+  margin-top: 0;
+  color: #ff6a00;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* When active (revealed) */
+.quote-box.active .hidden-quote {
+  display: block;
+}
+
+@keyframes floatQuote {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
 </style>
 </head>
 
@@ -391,7 +524,7 @@ footer {
 
   <!-- Background Music -->
   <audio id="aboutMusic" loop>
-    <source src="This Is It [ AMV - Mix ] Anime Mix.mp3" type="audio/mp3">
+    <source src="Kick Back.mp3" type="audio/mp3">
   </audio>
 
   <div class="about-overlay"></div>
@@ -416,6 +549,7 @@ footer {
 <!-- NEWZ -->
 <section id="news" class="container py-5 reveal">
   <h2 class="text-warning text-center mb-4">NewZ</h2>
+  <h4 class="text-warning mb-4">YxnZx's most Trusted Sites for Anime News and Updates</h4>
   <div class="row g-4">
 
     <!-- Anime Corner -->
@@ -448,9 +582,10 @@ footer {
 <!-- UPDATEZ -->
 <section id="updates" class="container py-5 reveal text-center">
   <h2 class="text-warning mb-4">UpdateZ</h2>
+  <h4 class="text-warning mb-4">Say Hi to YxnZx? YES YOU CAN!</h4>
 
   <p class="mb-4" style="max-width:600px; margin:0 auto;">
-    If ever this goes unresponsive or outdated, maybe I'm busy developing my HAKI, CHARKRA AND BANKAI or maybe just breathing...<br>
+    If ever this goes unresponsive or outdated, maybe I'm busy developing my HAKI, CHARKRA AND BANKAI or just simply breathing...<br>
     To check me out, here's my other social media profiles 🙂
   </p>
 
@@ -467,7 +602,7 @@ footer {
     <!-- Instagram -->
     <div class="col-6 col-md-3 text-center">
       <a href="https://www.instagram.com/" target="_blank" class="social-card">
-        <img src="spot.png" class="img-fluid rounded shadow" alt="Instagram">
+        <img src="garam.png" class="img-fluid rounded shadow" alt="Instagram">
         <p class="mt-2">Instagram</p>
       </a>
     </div>
@@ -494,7 +629,7 @@ footer {
 <!-- CHARACTERZ -->
 <section id="character" class="container py-5 text-center reveal" style="position: relative; z-index:1;">
   <h2 class="text-info mb-2">CharacterZ</h2>
-  <h4 class="text-warning mb-4">My Favorite Character of All Time</h4>
+  <h4 class="text-warning mb-4">YxnZx's Favorite Character of All Time</h4>
 
   <p class="mb-4 mx-auto reveal" 
    style="max-width:750px; color:#00cfff; line-height:1.6; text-align: justify; font-family: 'Share Tech Mono', monospace;">
@@ -544,20 +679,224 @@ footer {
   </div>
 </section>
 
-<!-- QUOTE SECTION -->
-<section id="quotes" class="container py-5 text-center reveal">
-  <h2 class="text-info mb-4">QuoteZ</h2>
-  <div class="quote-box" onclick="toggleQuote()">
-    Click to Reveal a Quote
-    <div class="hidden-quote" id="animeQuote">
-      "Power comes in response to a need, not a desire." — Maki Zenin
+<!-- SERIEZ -->
+<section id="series" class="container py-5 reveal">
+  <!-- Main Header -->
+  <h2 class="text-danger text-center mb-2">SerieZ</h2>
+  
+  <!-- Subheading -->
+  <h4 class="text-warning text-center mb-4">YxnZx is currently Watching...</h4>
+
+ <!-- Currently Watching Video -->
+<div class="text-center mb-5" id="serieVideoContainer">
+  <video id="bleachVideo" loop playsinline class="img-fluid rounded shadow" style="max-width:800px;">
+    <source src="BLEACH 20th Anime Anniversary Official Trailer.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <h4 class="mt-2 text-warning">Bleach: Thousand-Year Blood War</h4>
+</div>
+
+  <h2 class="text-info mb-4 text-center">Already Watched (Featured Series)</h2>
+  <div class="row g-4 text-center justify-content-center">
+
+    <!-- Anime Box Template -->
+    <div class="col-6 col-md-3">
+      <div class="anime-box">
+        <img src="mha.gif" class="img-fluid rounded" alt="My Hero Academia">
+        <p class="mt-2 text-success">My Hero Academia</p>
+      </div>
     </div>
+
+    <div class="col-6 col-md-3">
+      <div class="anime-box">
+        <img src="herox.gif" class="img-fluid rounded" alt="To Be Hero X">
+        <p class="mt-2 text-success">To Be Hero X</p>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="anime-box">
+        <img src="gachia.gif" class="img-fluid rounded" alt="Gachiakuta">
+        <p class="mt-2 text-success">Gachiakuta</p>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="anime-box">
+        <img src="punsks.gif" class="img-fluid rounded" alt="Cyberpunk: Edgerunners">
+        <p class="mt-2 text-success">Cyberpunk: Edgerunners</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MOVIEZ -->
+<section id="movies" class="container py-5 reveal">
+  <!-- Main Header -->
+  <h2 class="text-danger text-center mb-2">MovieZ</h2>
+  
+  <!-- Subheading -->
+  <h4 class="text-warning text-center mb-4">YxnZx's Featured Movie of the Week</h4>
+
+  <div class="row align-items-center g-4">
+    <!-- Video Clip -->
+    <div class="col-md-6 text-center">
+      <video id="onePieceRedVideo" class="img-fluid rounded shadow" controls poster="opred.jpg">
+        <source src="ONE PIECE FILM RED.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p class="mt-2"><strong>One Piece Film: Red</strong></p>
+      <p style="font-size:0.9rem; color:#aaa;">Click to play the video above</p>
+      <a href="https://www.netflix.com/ph-en/title/81700392?source=35&fromWatch=true" target="_blank" class="btn btn-danger mt-2">
+        <img src="netf.png" alt="Netflix" style="width:100px; margin-right:5px;">
+        Watch on Netflix
+      </a>
+    </div>
+
+    <!-- Movie Synopsis -->
+    <div class="col-md-6 text-light">
+      <img src="opred2.jpg" class="img-fluid rounded shadow mb-2" alt="One Piece Red Poster">
+      <p class="mt-2" style="font-size:0.95rem; line-height:1.6;">
+        <strong>Synopsis:</strong> 
+        One Piece Film: Red follows the adventures of Luffy and the Straw Hat Pirates as they face new enemies and uncover secrets about Shanks’ past. 
+        This high-energy feature combines breathtaking battles, heartfelt moments, and iconic characters in a story that will thrill both longtime fans and newcomers alike.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="music" class="container py-5 reveal">
+  <h2 class="text-info text-center mb-4">MusicZ</h2>
+  <h4 class="text-center text-warning mb-4">YxnZx's Feautured Music of the Week</h4>
+
+  <div class="row g-4">
+
+    <!-- Main Music Player -->
+    <div class="col-md-4 text-center">
+      <img src="aizo.jpg" class="img-fluid rounded shadow mb-2" alt="Main Track Cover">
+      <audio controls autoplay loop class="w-100 music-track">
+        <source src="Aizo.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+      <p class="music-title mt-2">
+        <span>King Gnu - AIZO</span>
+      </p>
+    </div>
+
+    <!-- Other Tracks -->
+    <div class="col-md-8">
+      <div class="row g-3">
+
+        <!-- Track 1 -->
+        <div class="col-6 col-md-3 text-center">
+          <img src="iris.png" class="img-fluid rounded shadow mb-2" alt="Track 1 Cover">
+          <audio controls class="w-100 music-track">
+            <source src="Iris Out.mp3" type="audio/mp3">
+          </audio>
+          <p class="music-title mt-1">
+            <span>Kenshi Yonezu - IRIS OUT</span>
+          </p>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="col-6 col-md-3 text-center">
+          <img src="onda.jpg" class="img-fluid rounded shadow mb-2" alt="Track 2 Cover">
+          <audio controls class="w-100 music-track">
+            <source src="On the Way.mp3" type="audio/mp3">
+          </audio>
+          <p class="music-title mt-1">
+            <span>革命道中 - On The Way</span>
+          </p>
+        </div>
+
+        <!-- Track 3 -->
+        <div class="col-6 col-md-3 text-center">
+          <img src="mhaend.jpg" class="img-fluid rounded shadow mb-2" alt="Track 3 Cover">
+          <audio controls class="w-100 music-track">
+            <source src="BUMP OF CHICKENI.mp3" type="audio/mp3">
+          </audio>
+          <p class="music-title mt-1">
+            <span>BUMP OF CHICKEN - I</span>
+          </p>
+        </div>
+
+        <!-- Track 4 -->
+        <div class="col-6 col-md-3 text-center">
+          <img src="kekka.png" class="img-fluid rounded shadow mb-2" alt="Track 4 Cover">
+          <audio controls class="w-100 music-track">
+            <source src="Kekka.mp3" type="audio/mp3">
+          </audio>
+          <p class="music-title mt-1">
+            <span>Kocchi no Kento - けっかおーらい</span>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUOTE SECTION -->
+<section id="quotes" class="position-relative text-center reveal"
+         style="min-height: 600px; padding: 100px 0; overflow: hidden; border-radius:15px;">
+
+  <!-- Background Image -->
+  <div class="quote-bg" style="
+        background-image: url('luffy.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: brightness(0.6);
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+  "></div>
+
+  <!-- Header -->
+  <h2 class="mb-5"
+      style="color:#fff; font-size:2.5rem;
+             text-shadow: 0 0 20px #ff6a00, 0 0 40px #39ff14;">
+      QuoteZ
+  </h2>
+
+  <!-- Floating Quote -->
+  <div class="quote-box mx-auto"
+       style="
+          max-width: 750px;
+          padding: 40px;
+          background: rgba(0,0,0,0.45);
+          border: 2px solid #39ff14;
+          border-radius: 20px;
+          backdrop-filter: blur(8px);
+          color: #fff;
+          font-size: 1.4rem;
+          font-weight: 600;
+          text-shadow: 0 0 10px #000;
+          animation: floatQuote 4s ease-in-out infinite;
+       ">
+
+   <p style="margin-bottom: 15px;">
+  "No matter how hard or how impossible it is,
+  never lose sight of your goal."
+</p>
+
+<strong style="
+    display: block;
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #ff6a00;
+">
+Monkey D. Luffy
+</strong>
+
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p class="footer-tag">Keep Being Weird 🟢🟠</p>
+  <p class="footer-tag">🟢🟠 Keep Being Weird 🟢🟠</p>
 </footer>
 
 <!-- Bootstrap JS -->
@@ -602,7 +941,7 @@ function toggleQuote(){
 const musicBtn = document.getElementById('musicToggle');
 const music = document.getElementById('aboutMusic');
 
-// Initial button state: paused/muted
+/* Initial button state: paused/muted */
 musicBtn.textContent = '🔇';
 musicBtn.classList.add('muted');
 
@@ -620,6 +959,50 @@ musicBtn.addEventListener('click', () => {
     musicBtn.classList.remove('playing');
     musicBtn.classList.add('muted');
   }
+});
+
+/* Autoplay video when it comes into view */
+const bleachVideo = document.getElementById('bleachVideo');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      bleachVideo.play();
+    } else {
+      bleachVideo.pause();
+    }
+  });
+}, { threshold: 0.5 }); // 50% visible triggers play
+
+observer.observe(document.getElementById('serieVideoContainer'));
+
+/* Pause other tracks & add sliding title animation */
+const tracks = document.querySelectorAll('.music-track');
+
+tracks.forEach(track => {
+  track.addEventListener('play', function() {
+
+    // Stop other tracks
+    tracks.forEach(t => {
+      if (t !== track) {
+        t.pause();
+        t.parentElement.querySelector('.music-title')?.classList.remove('playing');
+      }
+    });
+
+    // Add playing effect to this track
+    const title = track.parentElement.querySelector('.music-title');
+    if (title) {
+      title.classList.add('playing');
+    }
+  });
+
+  track.addEventListener('pause', function() {
+    const title = track.parentElement.querySelector('.music-title');
+    if (title) {
+      title.classList.remove('playing');
+    }
+  });
 });
 
 </script>
