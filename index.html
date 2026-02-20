@@ -204,7 +204,7 @@ footer {
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: #39ff14;  /* default green */
+  background: #39ff14; 
   color: #000;
   font-size: 1.5rem;
   cursor: pointer;
@@ -236,21 +236,21 @@ footer {
 }
 
 #news img {
-  border: 2px solid #39ff14;       /* default neon green border */
+  border: 2px solid #39ff14;       
   transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
   width: 100%;
-  max-height: 550px;               /* uniform height */
+  max-height: 550px;               
   object-fit: cover;
 }
 
 #news img:hover {
-  transform: scale(1.05);          /* zoom on hover */
-  border-color: #ff6a00;           /* border changes to neon orange */
+  transform: scale(1.05);          
+  border-color: #ff6a00;           
   box-shadow: 
     0 0 10px #39ff14,
     0 0 20px #ff6a00,
     0 0 30px #39ff14,
-    0 0 40px #ff6a00;             /* multi-layer neon glow */
+    0 0 40px #ff6a00;             
 }
 
 /* Optional: Pulse glow animation */
@@ -290,7 +290,7 @@ footer {
 }
 
 #character .carousel-inner img {
-  max-height: 900px;       /* Adjust height as needed */
+  max-height: 900px;       
   object-fit: cover;
   border: 3px solid #39ff14;
   box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00;
@@ -378,7 +378,7 @@ footer {
 
 /* Netflix Button Neon Glow */
 .btn-netflix {
-  background: #e50914; /* Netflix red */
+  background: #e50914; 
   color: #fff;
   font-weight: bold;
   display: inline-flex;
@@ -433,14 +433,14 @@ footer {
 
 /* Quote Reveal */
 .quote-box {
-  background: rgba(17,17,17,0.7); /* semi-transparent for quote on image */
+  background: rgba(17,17,17,0.7); 
   border: 1px solid #39ff14;
   padding: 20px 30px;
   cursor: pointer;
   transition: all 0.4s ease;
   color: #fff;
   text-shadow: 0 0 5px #000;
-  backdrop-filter: blur(6px); /* glassy effect */
+  backdrop-filter: blur(6px); 
 }
 
 .quote-box:hover {
@@ -982,7 +982,7 @@ const tracks = document.querySelectorAll('.music-track');
 tracks.forEach(track => {
   track.addEventListener('play', function() {
 
-    // Stop other tracks
+    
     tracks.forEach(t => {
       if (t !== track) {
         t.pause();
@@ -990,7 +990,7 @@ tracks.forEach(track => {
       }
     });
 
-    // Add playing effect to this track
+    
     const title = track.parentElement.querySelector('.music-title');
     if (title) {
       title.classList.add('playing');
