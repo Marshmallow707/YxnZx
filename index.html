@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YxnZx | Otaku Blog</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Futuristic Font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- Cool Futuristic Paragraph Font -->
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:'Orbitron', sans-serif;
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+
+/* Scroll Progress Bar */
+#progressBar {
+  height: 4px;
+  background: linear-gradient(90deg, #39ff14, #ff6a00);
+  width: 0%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+/* Neon Cursor */
+.cursor-glow {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  background:#39ff14;
+  box-shadow:0 0 20px #39ff14, 0 0 40px #ff6a00;
+  transform:translate(-50%,-50%);
+  z-index:9999;
+}
+
+/* Scroll Animation */
+.reveal {
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 1s ease;
+}
+.reveal.active {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* HERO */
+.hero {
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background: linear-gradient(-45deg,#000,#001f3f,#000,#002b36);
+  background-size:400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.logo {
+  font-size:4rem;
+  color:#39ff14;
+  text-shadow:0 0 15px #39ff14;
+  animation: floatLogo 4s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+
+.hero h3 {
+  color:#ff6a00;
+  text-shadow:0 0 20px #ff6a00;
+  animation:pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from{ text-shadow:0 0 5px #ff6a00;}
+  to{ text-shadow:0 0 25px #ff6a00;}
+}
+
+.tagline {
+  color:#00cfff;
+  margin-top:15px;
+}
+
+/* ABOUT VIDEO */
+#about {
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.about-video {
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  top:0;
+  left:0;
+  z-index:-2;
+}
+
+.about-overlay {
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+.about-text {
+  max-width:800px;
+  line-height:1.8;
+}
+
+/* Cards */
+.card {
+  background-color:#111;
+  border:1px solid #39ff14;
+  transition:0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow:0 0 20px #39ff14;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  background:#111;
+}
+
+.dropdown-item {
+  color:#39ff14;
+}
+
+.dropdown-item:hover {
+  background:#000;
+  color:#ff6a00;
+}
+
+/* Quote Reveal */
+.quote-box {
+  background:#111;
+  border:1px solid #39ff14;
+  padding:30px;
+  cursor:pointer;
+  transition:0.4s;
+}
+.quote-box:hover {
+  box-shadow:0 0 20px #39ff14;
+}
+.hidden-quote {
+  display:none;
+  margin-top:20px;
+  color:#ff6a00;
+}
+
+/* Footer */
+footer {
+  padding:20px;
+  text-align:center;
+  border-top:1px solid #39ff14;
+}
+.footer-tag {
+  color:#ff6a00;
+  text-shadow:0 0 15px #ff6a00;
+}
+
+/* Floating Neon Music Button */
+.floating-music-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #39ff14;  /* default green */
+  color: #000;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px #39ff14;
+  transition: all 0.3s ease;
+}
+
+/* Pulsing animation for playing state */
+@keyframes pulseButton {
+  0% { transform: scale(1); box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
+  50% { transform: scale(1.2); box-shadow: 0 0 30px #39ff14, 0 0 60px #ff6a00; }
+  100% { transform: scale(1); box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
+}
+
+/* Playing state */
+.floating-music-btn.playing {
+  animation: pulseButton 1.5s infinite;
+  background: #39ff14;
+}
+
+/* Muted/paused state */
+.floating-music-btn.muted {
+  background: #ff6a00;
+  box-shadow: 0 0 20px #ff6a00, 0 0 40px #ff6a00;
+}
+
+.floating-music-btn:hover {
+  transform: scale(1.2);
+}
+
+#news img {
+  border: 2px solid #39ff14;       /* default neon green border */
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  width: 100%;
+  max-height: 550px;               /* uniform height */
+  object-fit: cover;
+}
+
+#news img:hover {
+  transform: scale(1.05);          /* zoom on hover */
+  border-color: #ff6a00;           /* border changes to neon orange */
+  box-shadow: 
+    0 0 10px #39ff14,
+    0 0 20px #ff6a00,
+    0 0 30px #39ff14,
+    0 0 40px #ff6a00;             /* multi-layer neon glow */
+}
+
+/* Optional: Pulse glow animation */
+@keyframes pulseGlowThumb {
+  0% { box-shadow: 0 0 10px #39ff14, 0 0 20px #ff6a00; }
+  50% { box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
+  100% { box-shadow: 0 0 10px #39ff14, 0 0 20px #ff6a00; }
+}
+
+#news img:hover {
+  animation: pulseGlowThumb 1.5s infinite;
+}
+
+#updates .social-card img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border: 2px solid #39ff14;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+#updates .social-card img:hover {
+  transform: scale(1.05);
+  border-color: #ff6a00;
+  box-shadow: 
+    0 0 10px #39ff14,
+    0 0 20px #ff6a00,
+    0 0 30px #39ff14,
+    0 0 40px #ff6a00;
+  animation: pulseGlowThumb 1.5s infinite;
+}
+
+#updates .social-card p {
+  color: #00cfff;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+#character .carousel-inner img {
+  max-height: 900px;       /* Adjust height as needed */
+  object-fit: cover;
+  border: 3px solid #39ff14;
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#character .carousel-inner img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px #39ff14, 0 0 60px #ff6a00;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1) drop-shadow(0 0 2px #39ff14);
+}
+
+.carousel-neon {
+  max-height: 500px;
+  object-fit: cover;
+  border: 3px solid #39ff14;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00;
+  transition: transform 1s ease, box-shadow 1s ease;
+  animation: neonPulse 3s ease-in-out infinite alternate;
+}
+
+.carousel-neon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px #39ff14, 0 0 80px #ff6a00;
+}
+
+@keyframes neonPulse {
+  0% { transform: scale(1); box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
+  50% { transform: scale(1.02); box-shadow: 0 0 35px #39ff14, 0 0 70px #ff6a00; }
+  100% { transform: scale(1); box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1) drop-shadow(0 0 2px #39ff14);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="progressBar"></div>
+<div class="cursor-glow"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
+  <div class="container">
+    <a class="navbar-brand logo" href="#">YxnZx</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About MX</a></li>
+        <li class="nav-item"><a class="nav-link" href="#news">NewZ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#updates">UpdateZ</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">FAVEZ</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#character">CharacterZ</a></li>
+            <li><a class="dropdown-item" href="#series">SerieZ</a></li>
+            <li><a class="dropdown-item" href="#movies">MovieZ</a></li>
+            <li><a class="dropdown-item" href="#music">MusicZ</a></li>
+            <li><a class="dropdown-item" href="#quotes">QuoteZ</a></li>
+            <li><a class="dropdown-item" href="#cool">Cool StuffZ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div>
+    <h1 class="logo">YxnZx</h1>
+    <h2>Just an otaku that believes:</h2>
+    <h3>"Anything is Possible!"</h3>
+    <p class="tagline">Keep Being Weird</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <!-- Video Background -->
+  <video id="aboutVideo" autoplay muted loop playsinline class="about-video">
+    <source src="This Is It [ AMV - Mix ] Anime Mix.mp4" type="video/mp4">
+  </video>
+
+  <!-- Background Music -->
+  <audio id="aboutMusic" loop>
+    <source src="This Is It [ AMV - Mix ] Anime Mix.mp3" type="audio/mp3">
+  </audio>
+
+  <div class="about-overlay"></div>
+
+  <div class="container text-center reveal">
+    <h2 class="text-success mb-4">About MX</h2>
+    <p class="about-text mx-auto" style="max-width:800px; line-height:1.8;">
+      Yo! The name’s YxnZx. Now that I finally have the capability to create a website, I gathered the courage to start this blog. This is just practice for what it might become in the future, since I’m not that skilled yet to build something super professional… BUT this is the first step of that journey.<br><br>
+
+      Growing up, I always thought I was that “weird kid” who didn’t fit in. But as I got older, I realized something — it’s not that I didn’t fit in… it’s that I’m not some rare main character either. I’m just not that special nor have the aura to farm, which a bit sucks, can't help it.<br><br>
+
+      But you know what? I may not be destined to be able to get isekaied to another world nor have the means to acquire superb powers, however one thing is for certain, I LOVE ANIME. I’m not special. I’m weird. And I’m okay with that.<br><br>
+
+      If you read this far… congrats, you just wasted your time for nothing. Arigathanks for reading.
+    </p>
+  </div>
+
+  <!-- Floating Music Button -->
+  <button id="musicToggle" class="floating-music-btn">🔇</button>
+</section>
+
+<!-- NEWZ -->
+<section id="news" class="container py-5 reveal">
+  <h2 class="text-warning text-center mb-4">NewZ</h2>
+  <div class="row g-4">
+
+    <!-- Anime Corner -->
+    <div class="col-md-4 col-sm-6 text-center">
+      <a href="https://animecorner.me/" target="_blank">
+        <img src="animecorner.png" class="img-fluid rounded" alt="Anime Corner">
+        <p class="mt-2">Latest from Anime Corner</p>
+      </a>
+    </div>
+
+    <!-- Crunchyroll News -->
+    <div class="col-md-4 col-sm-6 text-center">
+      <a href="https://www.crunchyroll.com/news/latest?srsltid=AfmBOooOZdf4Ry4DMNeX-7R2ooowcntbmx3k5QfdUVmX4wb4htdd0fGe" target="_blank">
+        <img src="crunch.png" class="img-fluid rounded" alt="Crunchyroll News">
+        <p class="mt-2">Trending at Crunchyroll News</p>
+      </a>
+    </div>
+
+    <!-- Anime News Network -->
+    <div class="col-md-4 col-sm-6 text-center">
+      <a href="https://www.animenewsnetwork.com/" target="_blank">
+        <img src="animenn.png" class="img-fluid rounded" alt="Anime News Network">
+        <p class="mt-2">Updates from Anime News Network</p>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- UPDATEZ -->
+<section id="updates" class="container py-5 reveal text-center">
+  <h2 class="text-warning mb-4">UpdateZ</h2>
+
+  <p class="mb-4" style="max-width:600px; margin:0 auto;">
+    If ever this goes unresponsive or outdated, maybe I'm busy developing my HAKI, CHARKRA AND BANKAI or maybe just breathing...<br>
+    To check me out, here's my other social media profiles 🙂
+  </p>
+
+  <div class="row g-4 justify-content-center mt-3">
+
+    <!-- Facebook -->
+    <div class="col-6 col-md-3 text-center">
+      <a href="https://www.facebook.com/" target="_blank" class="social-card">
+        <img src="fb.png" class="img-fluid rounded shadow" alt="Facebook">
+        <p class="mt-2">Facebook</p>
+      </a>
+    </div>
+
+    <!-- Instagram -->
+    <div class="col-6 col-md-3 text-center">
+      <a href="https://www.instagram.com/" target="_blank" class="social-card">
+        <img src="ins.png" class="img-fluid rounded shadow" alt="Instagram">
+        <p class="mt-2">Instagram</p>
+      </a>
+    </div>
+
+    <!-- Discord -->
+    <div class="col-6 col-md-3 text-center">
+      <a href="https://discord.com/" target="_blank" class="social-card">
+        <img src="dis.png" class="img-fluid rounded shadow" alt="Discord">
+        <p class="mt-2">Discord</p>
+      </a>
+    </div>
+
+    <!-- Reddit -->
+    <div class="col-6 col-md-3 text-center">
+      <a href="https://www.reddit.com/" target="_blank" class="social-card">
+        <img src="redd.png" class="img-fluid rounded shadow" alt="Reddit">
+        <p class="mt-2">Reddit</p>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CHARACTERZ -->
+<section id="character" class="container py-5 text-center reveal" style="position: relative; z-index:1;">
+  <h2 class="text-info mb-2">CharacterZ</h2>
+  <h4 class="text-warning mb-4">My Favorite Character of All Time</h4>
+
+  <p class="mb-4 mx-auto reveal" 
+   style="max-width:750px; color:#00cfff; line-height:1.6; text-align: justify; font-family: 'Share Tech Mono', monospace;">
+  Maki Zenin (禪ぜん院いん真ま希き) is a major supporting character in <em>Jujutsu Kaisen</em> and one of the main protagonists of its prequel, <em>Jujutsu Kaisen 0: Jujutsu High</em>. 
+  She is a second-year student at Tokyo Jujutsu High, the daughter of Ogi Zenin, and the elder twin sister of Mai Zenin. Born a non-sorcerer in one of the Big Three Families, Maki was constantly mistreated and eventually expelled herself from the clan. 
+  Determined to become a powerful jujutsu sorcerer, she works closely with her friends Panda and Toge Inumaki while serving as a role model to first-year students.<br><br>
+
+  After enduring severe burns from Jogo during the Shibuya Incident, Maki suffered immense trauma, including the death of her twin sister Mai, who sacrificed herself to turn Maki into a full "Heavenly Restriction" powerhouse akin to Toji Fushiguro. 
+  Driven by vengeance, Maki slaughtered the entire Zenin clan, becoming a stoic, physically superior, and scarred warrior. Despite all the hardships, she continues to embody courage, perseverance, and unwavering determination, making her an inspiring character and my absolute favorite of all time.
+</p>
+
+  <div id="makiCarousel" class="carousel carousel-fade slide mt-4" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false" style="position: relative; z-index:2;">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="maki01.jpg" class="d-block w-100 carousel-neon" alt="Maki Zenin 1">
+      </div>
+      <div class="carousel-item">
+        <img src="maki02.jpg" class="d-block w-100 carousel-neon" alt="Maki Zenin 2">
+      </div>
+      <div class="carousel-item">
+        <img src="maki03.jpg" class="d-block w-100 carousel-neon" alt="Maki Zenin 3">
+      </div>
+      <div class="carousel-item">
+        <img src="maki04.jpg" class="d-block w-100 carousel-neon" alt="Maki Zenin 4">
+      </div>
+      <div class="carousel-item">
+        <img src="maki05.jpg" class="d-block w-100 carousel-neon" alt="Maki Zenin 5">
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#makiCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#makiCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+
+    <div class="carousel-indicators mt-3" style="position: relative; z-index:3;">
+      <button type="button" data-bs-target="#makiCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#makiCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#makiCarousel" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#makiCarousel" data-bs-slide-to="3"></button>
+      <button type="button" data-bs-target="#makiCarousel" data-bs-slide-to="4"></button>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE SECTION -->
+<section id="quotes" class="container py-5 text-center reveal">
+  <h2 class="text-info mb-4">QuoteZ</h2>
+  <div class="quote-box" onclick="toggleQuote()">
+    Click to Reveal a Quote
+    <div class="hidden-quote" id="animeQuote">
+      "Power comes in response to a need, not a desire." — Maki Zenin
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-tag">Keep Being Weird 🟢🟠</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* Neon Cursor */
+const cursor = document.querySelector('.cursor-glow');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+/* Scroll Reveal */
+window.addEventListener('scroll', reveal);
+function reveal(){
+  let reveals = document.querySelectorAll('.reveal');
+  for(let i=0;i<reveals.length;i++){
+    let windowHeight = window.innerHeight;
+    let elementTop = reveals[i].getBoundingClientRect().top;
+    let elementVisible = 100;
+    if(elementTop < windowHeight - elementVisible){
+      reveals[i].classList.add('active');
+    }
+  }
+}
+
+/* Scroll Progress Bar */
+window.onscroll = function() {
+  let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let scrolled = (winScroll / height) * 100;
+  document.getElementById("progressBar").style.width = scrolled + "%";
+};
+
+/* Quote Toggle */
+function toggleQuote(){
+  let quote = document.getElementById("animeQuote");
+  quote.style.display = quote.style.display === "block" ? "none" : "block";
+}
+
+const musicBtn = document.getElementById('musicToggle');
+const music = document.getElementById('aboutMusic');
+
+// Initial button state: paused/muted
+musicBtn.textContent = '🔇';
+musicBtn.classList.add('muted');
+
+musicBtn.addEventListener('click', () => {
+  if (music.paused) {
+    music.play().catch(() => {
+      console.log("Autoplay blocked. User interaction required."); 
+    });
+    musicBtn.textContent = '🔊';
+    musicBtn.classList.remove('muted');
+    musicBtn.classList.add('playing');
+  } else {
+    music.pause();
+    musicBtn.textContent = '🔇';
+    musicBtn.classList.remove('playing');
+    musicBtn.classList.add('muted');
+  }
+});
+
+</script>
+
+</body>
+</html>
