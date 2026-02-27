@@ -1,8 +1,28 @@
 /* Neon Cursor */
-const cursor = document.querySelector('.cursor-glow');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
+document.addEventListener("DOMContentLoaded", function() {
+  const cursor = document.getElementById('cursorGlow');
+  let mouseX = 0, mouseY = 0;
+  let posX = 0, posY = 0;
+  const speed = 0.2;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.opacity = '1';
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+  });
+
+  function animateCursor() {
+    posX += (mouseX - posX) * speed;
+    posY += (mouseY - posY) * speed;
+    cursor.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateCursor);
+  }
+
+  animateCursor();
 });
 
 /* Scroll Reveal */
@@ -29,13 +49,24 @@ window.onscroll = function() {
 
 /*Scroll Shrink */
 
-window.addEventListener("scroll", function () {
-  const navbar = document.querySelector(".navbar");
+let lastScrollY = 0;
+let ticking = false;
 
-  if (window.scrollY > 50) {
-    navbar.classList.add("shrink");
-  } else {
-    navbar.classList.remove("shrink");
+window.addEventListener("scroll", function() {
+  lastScrollY = window.scrollY;
+
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      const navbar = document.querySelector(".navbar");
+      if (lastScrollY > 50) {
+        navbar.classList.add("shrink");
+      } else {
+        navbar.classList.remove("shrink");
+      }
+      ticking = false;
+    });
+
+    ticking = true;
   }
 });
 
@@ -45,68 +76,118 @@ function toggleQuote(){
   quote.style.display = quote.style.display === "block" ? "none" : "block";
 }
 
-const musicBtn = document.getElementById('musicToggle');
-const music = document.getElementById('aboutMusic');
+/* Music Button */
+document.addEventListener("DOMContentLoaded", function () {
 
-/* Initial button state: paused/muted */
-musicBtn.textContent = '🔇';
-musicBtn.classList.add('muted');
+  const musicBtn = document.getElementById('musicToggle');
+  const music = document.getElementById('aboutMusic');
 
-musicBtn.addEventListener('click', () => {
-  if (music.paused) {
-    music.play().catch(() => {
-      console.log("Autoplay blocked. User interaction required."); 
-    });
-    musicBtn.textContent = '🔊';
-    musicBtn.classList.remove('muted');
-    musicBtn.classList.add('playing');
-  } else {
-    music.pause();
-    musicBtn.textContent = '🔇';
-    musicBtn.classList.remove('playing');
-    musicBtn.classList.add('muted');
+  if (!musicBtn || !music) {
+    console.log("Music elements not found.");
+    return;
   }
+
+  musicBtn.textContent = '🔇';
+  musicBtn.classList.add('muted');
+
+  musicBtn.addEventListener('click', () => {
+
+    if (music.paused) {
+
+      music.play().then(() => {
+        musicBtn.textContent = '🔊';
+        musicBtn.classList.remove('muted');
+        musicBtn.classList.add('playing');
+      }).catch(err => {
+        console.log("Playback failed:", err);
+      });
+
+    } else {
+
+      music.pause();
+      musicBtn.textContent = '🔇';
+      musicBtn.classList.remove('playing');
+      musicBtn.classList.add('muted');
+
+    }
+
+  });
+
 });
 
-/* Autoplay video when it comes into view */
+/* SerieZ Autoplay */
 const bleachVideo = document.getElementById('bleachVideo');
+const container = document.getElementById('serieVideoContainer');
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      bleachVideo.play().catch(() => {
-        console.log("Autoplay blocked on mobile — user must tap to play.");
-      });
-    } else {
-      bleachVideo.pause();
-    }
-  });
-}, { threshold: 0.25 });
+if (bleachVideo && container) {
 
-observer.observe(document.getElementById('serieVideoContainer'));
+  bleachVideo.muted = true;
 
-tracks.forEach(track => {
-  track.addEventListener('play', function() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
 
-    
-    tracks.forEach(t => {
-      if (t !== track) {
-        t.pause();
-        t.parentElement.querySelector('.music-title')?.classList.remove('playing');
+      if (entry.isIntersecting) {
+        bleachVideo.play().catch(() => {});
+      } else {
+        bleachVideo.pause();
       }
+
+    });
+  }, { threshold: 0.4 });
+
+  observer.observe(container);
+
+  // 🔊 Enable sound after first user interaction anywhere
+  document.addEventListener('click', function enableSoundOnce() {
+    bleachVideo.muted = false;
+    document.removeEventListener('click', enableSoundOnce);
+  });
+
+}
+
+/* MusicZ Player*/
+document.addEventListener("DOMContentLoaded", function() {
+
+  const musicTracks = document.querySelectorAll('.music-track');
+
+  musicTracks.forEach(track => {
+
+    track.addEventListener('play', function() {
+
+      // Stop all other tracks
+      musicTracks.forEach(otherTrack => {
+        if (otherTrack !== track) {
+          otherTrack.pause();
+          otherTrack.currentTime = 0;
+
+          const otherTitle = otherTrack.closest('.text-center')?.querySelector('.music-title');
+          if (otherTitle) {
+            otherTitle.classList.remove('playing');
+          }
+        }
+      });
+
+      // Activate current title animation
+      const currentTitle = track.closest('.text-center')?.querySelector('.music-title');
+
+      if (currentTitle) {
+        currentTitle.classList.remove('playing');
+        void currentTitle.offsetWidth; // restart animation
+        currentTitle.classList.add('playing');
+      }
+
     });
 
-    
-    const title = track.parentElement.querySelector('.music-title');
-    if (title) {
-      title.classList.add('playing');
-    }
+    track.addEventListener('pause', function() {
+
+      const currentTitle = track.closest('.text-center')?.querySelector('.music-title');
+      if (currentTitle) {
+        currentTitle.classList.remove('playing');
+      }
+
+    });
+
   });
 
-  track.addEventListener('pause', function() {
-    const title = track.parentElement.querySelector('.music-title');
-    if (title) {
-      title.classList.remove('playing');
-    }
-  });
 });
+

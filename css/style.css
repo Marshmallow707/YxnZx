@@ -52,15 +52,24 @@ body {
 
 /* Neon Cursor */
 .cursor-glow {
-  width:15px;
-  height:15px;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  background:#39ff14;
-  box-shadow:0 0 20px #39ff14, 0 0 40px #ff6a00;
-  transform:translate(-50%,-50%);
-  z-index:9999;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  background: #39ff14;
+  box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  opacity: 1;
+}
+
+/* Optional: enlarge on click */
+body:active .cursor-glow {
+  width: 25px;
+  height: 25px;
+  box-shadow: 0 0 30px #39ff14, 0 0 60px #ff6a00;
 }
 
 /* Scroll Animation */
@@ -77,23 +86,33 @@ body {
 /* Normal navbar */
 .navbar {
   padding: 20px 0;
-  transition: padding 0.3s ease, background-color 0.3s ease;
+  transition: padding 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Shrunk navbar */
 .navbar.shrink {
   padding: 8px 0;
   background-color: #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 /* Shrink logo */
+.navbar-brand {
+  font-size: 1.5rem;
+  transition: font-size 0.4s ease;
+}
+
 .navbar.shrink .navbar-brand {
   font-size: 1.2rem;
-  transition: font-size 0.3s ease;
+}
+
+.navbar {
+  background-color: rgba(0,0,0,0.7);
+  transition: padding 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .navbar.shrink {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,1);
 }
 
 
@@ -235,42 +254,71 @@ footer {
 /* Floating Neon Music Button */
 .floating-music-btn {
   position: fixed;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
-  z-index: 9999;
+  z-index: 1000;
+
   width: 60px;
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: #39ff14; 
+
+  background: #ff6a00; /* default = muted */
   color: #000;
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 0 10px #39ff14;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 0 20px #ff6a00;
   transition: all 0.3s ease;
 }
 
-/* Pulsing animation for playing state */
+/* Playing Pulse Animation */
 @keyframes pulseButton {
-  0% { transform: scale(1); box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
-  50% { transform: scale(1.2); box-shadow: 0 0 30px #39ff14, 0 0 60px #ff6a00; }
-  100% { transform: scale(1); box-shadow: 0 0 20px #39ff14, 0 0 40px #ff6a00; }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #39ff14;
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px #39ff14, 0 0 60px #39ff14;
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #39ff14;
+  }
 }
 
-/* Playing state */
+/* Playing State */
 .floating-music-btn.playing {
-  animation: pulseButton 1.5s infinite;
   background: #39ff14;
+  animation: pulseButton 1.5s infinite ease-in-out;
 }
 
-/* Muted/paused state */
+/* Muted / Paused State */
 .floating-music-btn.muted {
   background: #ff6a00;
-  box-shadow: 0 0 20px #ff6a00, 0 0 40px #ff6a00;
+  box-shadow: 0 0 20px #ff6a00;
+  animation: none;
 }
 
+/* Hover Effect (only scale, no animation conflict) */
 .floating-music-btn:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .floating-music-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 15px;
+    right: 15px;
+  }
 }
 
 #news img {
